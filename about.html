@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Review Summarizer</title>
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-dark: #111827;
+            --bg-card: #1f2937;
+            --bg-field: #374151;
+            --text-primary: #f3f4f6;
+            --text-secondary: #d1d5db;
+            --text-muted: #9ca3af;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --hover-bg: rgba(255, 255, 255, 0.08);
+            --transition-speed: 0.2s;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background-color: #1a1a1a;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+        }
+        
+        .nav-container {
+            background-color: var(--bg-dark);
+            border-radius: 0.75rem;
+            padding: 1.75rem 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .nav-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            color: var(--text-primary);
+            letter-spacing: -0.025em;
+            position: relative;
+            padding-bottom: 0.75rem;
+            display: inline-block;
+        }
+        
+        .nav-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+        
+        .nav-list {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.25rem;
+        }
+        
+        .nav-list li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-list a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            padding: 0.65rem 1.25rem;
+            border-radius: 0.375rem;
+            display: inline-block;
+            border: 1px solid transparent;
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-list a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-list a:hover {
+            color: #ffffff;
+            background-color: var(--hover-bg);
+            border-color: var(--border-color);
+            transform: translateY(-2px);
+        }
+        
+        .nav-list a:hover::before {
+            width: 100%;
+        }
+        
+        .component-container {
+            display: none;
+            background-color: var(--bg-card);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin-top: 1.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .component-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--primary-color);
+        }
+        
+        .component-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .component-title::before {
+            content: '•';
+            color: var(--primary-color);
+            margin-right: 0.75rem;
+            font-size: 1.75rem;
+            line-height: 0;
+        }
+        
+        .component-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            padding-left: 0.5rem;
+            border-left: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .text-field {
+            background-color: var(--bg-field);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            color: var(--text-primary);
+            width: 100%;
+            min-height: 120px;
+            margin-top: 1.25rem;
+            transition: all var(--transition-speed) ease;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+            line-height: 1.7;
+        }
+        
+        .text-field:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .active {
+            color: #ffffff !important;
+            background-color: var(--primary-color) !important;
+            border-color: var(--primary-hover) !important;
+            box-shadow: 0 2px 5px rgba(79, 70, 229, 0.3) !important;
+        }
+        
+        .active::before {
+            display: none;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .nav-list {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .nav-list a {
+                display: block;
+                width: 100%;
+            }
+            
+            .component-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-container">
+            <h2 class="nav-title">Product Review Summarizer</h2>
+            <ul class="nav-list">
+                <li><a href="#" id="about-link" class="nav-link">About Us</a></li>
+                <li><a href="#" id="careers-link" class="nav-link">Careers</a></li>
+                <li><a href="#" id="blog-link" class="nav-link">Blog</a></li>
+                <li><a href="#" id="press-link" class="nav-link">Press</a></li>
+            </ul>
+        </div>
+        
+        <div id="about-component" class="component-container">
+            <h3 class="component-title">About Us</h3>
+            <p class="component-description">
+                We're dedicated to making online shopping simpler and more informed. Our AI-powered product 
+                review summarizer helps customers quickly understand the pros and cons of any product without 
+                reading hundreds of reviews. Founded in 2023, we've processed over 10 million reviews and 
+                helped countless shoppers make better decisions.
+            </p>
+            <div class="text-field">
+                Our team combines expertise in natural language processing, machine learning, and e-commerce 
+                to deliver accurate and helpful product summaries. We're committed to transparency and 
+                objectivity in our review analysis, ensuring you get balanced information for every purchase decision.
+            </div>
+        </div>
+        
+        <div id="careers-component" class="component-container">
+            <h3 class="component-title">Careers</h3>
+            <p class="component-description">
+                Join our innovative team and help reshape how people shop online. We offer competitive 
+                salaries, flexible remote work options, and a collaborative culture focused on growth 
+                and impact. We're constantly looking for talented individuals passionate about AI, 
+                e-commerce, and creating exceptional user experiences.
+            </p>
+            <div class="text-field">
+                Current openings include positions in machine learning engineering, full-stack development, 
+                UI/UX design, and product management. We value diversity of thought and background, and 
+                encourage applications from candidates of all experiences and identities. Visit our careers 
+                page to learn more about our benefits, culture, and current openings.
+            </div>
+        </div>
+        
+        <div id="blog-component" class="component-container">
+            <h3 class="component-title">Blog</h3>
+            <p class="component-description">
+                Explore our latest insights on e-commerce trends, AI developments, and smart shopping 
+                strategies. Our blog features in-depth analyses, practical guides, and thought leadership 
+                from our team and industry experts. Stay informed about the evolving landscape of online 
+                retail and review technology.
+            </p>
+            <div class="text-field">
+                Recent articles cover topics like "How AI Is Changing Consumer Decision-Making," 
+                "The Psychology Behind Product Reviews," and "Spotting Fake Reviews: A Machine Learning Approach." 
+                Subscribe to our newsletter to receive the latest posts directly in your inbox, along with 
+                exclusive content and product updates from our research team.
+            </div>
+        </div>
+        
+        <div id="press-component" class="component-container">
+            <h3 class="component-title">Press</h3>
+            <p class="component-description">
+                Find the latest news, press releases, and media resources about our product review summarizer. 
+                Our innovative technology has been featured in leading tech and business publications, 
+                recognized for its contribution to improving the online shopping experience for consumers worldwide.
+            </p>
+            <div class="text-field">
+                For media inquiries, interview requests, or press kit materials, please contact our 
+                communications team at press@reviewsummarizer.com. We're happy to provide expert commentary 
+                on e-commerce trends, consumer behavior, and the application of AI in retail contexts. 
+                Download our media assets, company logos, and executive headshots from our press resources section.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get all navigation links
+        const navLinks = document.querySelectorAll('.nav-link');
+        const components = document.querySelectorAll('.component-container');
+        
+        // Function to show a specific component
+        function showComponent(componentId) {
+            // Hide all components first
+            components.forEach(component => {
+                component.style.display = 'none';
+            });
+            
+            // Remove active class from all links
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show the selected component
+            const selectedComponent = document.getElementById(componentId);
+            if (selectedComponent) {
+                selectedComponent.style.display = 'block';
+                
+                // Add active class to corresponding link
+                const linkId = componentId.replace('component', 'link');
+                const activeLink = document.getElementById(linkId);
+                if (activeLink) {
+                    activeLink.classList.add('active');
+                }
+            }
+        }
+        
+        // Add click event listeners to each navigation link
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Get component ID from link ID
+                const componentId = this.id.replace('link', 'component');
+                
+                // Show the component
+                showComponent(componentId);
+            });
+        });
+        
+        // Show About Us component by default when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            showComponent('about-component');
+            document.getElementById('about-link').classList.add('active');
+        });
+    </script>
+</body>
+</html>

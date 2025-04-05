@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen p-6">
+    <div class="max-w-4xl bg-gray-800 p-10 rounded-2xl shadow-2xl border border-gray-700 transition-transform transform hover:scale-105">
+        <h1 class="text-4xl font-extrabold text-center text-green-400 mb-8">Pricing Information</h1>
+        <p class="text-gray-300 leading-relaxed text-lg text-center">
+            Our AI-based product review summarizer provides pricing details based on the latest available information. However, since our API does not have direct access to real-time Google Gemini data, the displayed prices might not always be perfectly up-to-date. Here’s what you need to know:
+        </p>
+        
+        <div class="mt-8 space-y-6">
+            <div class="p-6 bg-gray-700 rounded-lg border border-gray-600 shadow-md hover:bg-gray-600 transition duration-300">
+                <h2 class="text-2xl font-semibold text-green-300">1. Price Fetching Mechanism</h2>
+                <p class="text-gray-300 text-lg mt-2">We gather pricing details from publicly available sources and user-provided links. Our system extracts the most recent pricing, but it may be subject to change due to updates on e-commerce websites.</p>
+            </div>
+            
+            <div class="p-6 bg-gray-700 rounded-lg border border-gray-600 shadow-md hover:bg-gray-600 transition duration-300">
+                <h2 class="text-2xl font-semibold text-green-300">2. Possible Price Variations</h2>
+                <p class="text-gray-300 text-lg mt-2">Since our AI relies on data snapshots rather than real-time API access, pricing may differ slightly from the actual product listing. We recommend verifying prices on the original e-commerce website before making a purchase.</p>
+            </div>
+            
+            <div class="p-6 bg-gray-700 rounded-lg border border-gray-600 shadow-md hover:bg-gray-600 transition duration-300">
+                <h2 class="text-2xl font-semibold text-green-300">3. Best Available Deals</h2>
+                <p class="text-gray-300 text-lg mt-2">Our system attempts to display the best possible price at the time of retrieval. However, discounts, special offers, or limited-time deals may not always be reflected accurately.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

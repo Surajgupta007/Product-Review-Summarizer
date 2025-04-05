@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works - Product Review Summarizer</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Header styles */
+        header {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        /* Main content styles */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        
+        .section {
+            margin-bottom: 4rem;
+            background: white;
+            border-radius: 10px;
+            padding: 2.5rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        h2 {
+            color: #4f46e5;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #4f46e5;
+        }
+        
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .workflow {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+        }
+        
+        .step-number {
+            background-color: #4f46e5;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .tech-stack {
+            background-color: #f0f4ff;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+        
+        .tech-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .tech-icon {
+            background-color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+        }
+        
+        .tech-icon i {
+            font-size: 1.8rem;
+            color: #4f46e5;
+        }
+        
+        /* API Workflow Diagram */
+        .api-workflow {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .api-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .diagram-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 200px;
+            position: relative;
+        }
+        
+        .diagram-step:not(:last-child):after {
+            content: '→';
+            position: absolute;
+            right: -25px;
+            top: 40px;
+            font-size: 2rem;
+            color: #4f46e5;
+        }
+        
+        .diagram-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #f0f4ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .diagram-text {
+            font-weight: 500;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .step {
+                flex-direction: column;
+            }
+            
+            .diagram-step:not(:last-child):after {
+                content: '↓';
+                right: auto;
+                top: auto;
+                bottom: -30px;
+            }
+            
+            .api-diagram {
+                flex-direction: column;
+                gap: 3rem;
+            }
+            
+            .diagram-step {
+                width: 100%;
+            }
+            
+            h2 {
+                font-size: 1.7rem;
+            }
+        }
+        
+        /* Footer styles */
+        footer {
+            background-color: #1f2937;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .section:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .section:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">Review Summarizer</div>
+            <div class="tagline">Smart AI-Powered Product Review Analysis</div>
+        </div>
+    </header>
+    
+    <main>
+        <section class="section">
+            <h2>What Our Tool Does</h2>
+            <p>The Product Review Summarizer is an innovative tool designed to save you time and help you make better purchasing decisions. By leveraging the power of Google's Gemini API, our platform can analyze hundreds of customer reviews from popular e-commerce websites and distill them into concise, actionable summaries.</p>
+            
+            <p>Whether you're researching a new laptop, kitchen appliance, or any other product, our tool eliminates the need to scroll through pages of reviews by highlighting the most important feedback points, common praises, frequent complaints, and overall customer sentiment.</p>
+        </section>
+        
+        <section class="section">
+            <h2>How It Works</h2>
+            <p>Our Product Review Summarizer works through a streamlined process that leverages advanced AI technology to provide you with valuable insights in seconds:</p>
+            
+            <div class="workflow">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <div class="step-title">Input Product URL</div>
+                        <p>Simply paste the URL of the product page from any major e-commerce website (Amazon, Flipkart, etc.) into our search bar. Our system accepts links from virtually any online store that features customer reviews.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <div class="step-title">Data Extraction</div>
+                        <p>Once you submit the URL, our backend system navigates to the product page and uses specialized web scraping techniques to extract all available customer reviews, ratings, and relevant product information.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <div class="step-title">AI-Powered Analysis</div>
+                        <p>The extracted review data is then processed through Google's Gemini API, an advanced language model capable of understanding context, sentiment, and nuance in human language. The API analyzes patterns across all reviews to identify common themes, sentiments, and valuable insights.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <div class="step-title">Summary Generation</div>
+                        <p>Based on the AI analysis, our system generates a comprehensive yet concise summary that highlights key aspects of the product including its strengths, weaknesses, overall sentiment, and specific feature feedback. The summary also includes relevant statistics such as the distribution of ratings.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <div class="step-title">User-Friendly Display</div>
+                        <p>The final summary is presented to you in an easy-to-read format with visual elements to highlight important points. You can save the summary, export it, or share it with others to help with purchase decisions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2>Our Technology Stack</h2>
+            <p>The Product Review Summarizer is built using modern web technologies and powerful AI capabilities:</p>
+            
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <div class="tech-icon">
+                        <i class="fa-brands fa-html5"></i>
+                    </div>
+                    <div>
+                        <strong>HTML5</strong>: Provides the structural foundation of our web interface, ensuring accessibility and semantic markup.
+                    </div>
+                </div>
+                
+                <div class="tech-item">
+                    <div class="tech-icon">
+                        <i class="fa-brands fa-css3-alt"></i>
+                    </div>
+                    <div>
+                        <strong>CSS3</strong>: Delivers a responsive, visually appealing design that works seamlessly across all devices and screen sizes.
+                    </div>
+                </div>
+                
+                <div class="tech-item">
+                    <div class="tech-icon">
+                        <i class="fa-brands fa-js"></i>
+                    </div>
+                    <div>
+                        <strong>JavaScript</strong>: Powers the interactive elements of our website, handles form submissions, and manages API communication.
+                    </div>
+                </div>
+                
+                <div class="tech-item">
+                    <div class="tech-icon">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div>
+                        <strong>Google Gemini API</strong>: Provides advanced natural language processing capabilities that analyze review content and generate insightful summaries.
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2>The Google Gemini API Integration</h2>
+            <p>At the core of our Review Summarizer is the powerful Google Gemini API, which enables sophisticated text analysis and summary generation:</p>
+            
+            <div class="api-workflow">
+                <h3>API Workflow</h3>
+                
+                <div class="api-diagram">
+                    <div class="diagram-step">
+                        <div class="diagram-icon">
+                            <i class="fa-solid fa-link" style="color: #4f46e5; font-size: 2rem;"></i>
+                        </div>
+                        <div class="diagram-text">Product URL Submission</div>
+                    </div>
+                    
+                    <div class="diagram-step">
+                        <div class="diagram-icon">
+                            <i class="fa-solid fa-download" style="color: #4f46e5; font-size: 2rem;"></i>
+                        </div>
+                        <div class="diagram-text">Review Data Extraction</div>
+                    </div>
+                    
+                    <div class="diagram-step">
+                        <div class="diagram-icon">
+                            <i class="fa-solid fa-cloud" style="color: #4f46e5; font-size: 2rem;"></i>
+                        </div>
+                        <div class="diagram-text">Gemini API Request</div>
+                    </div>
+                    
+                    <div class="diagram-step">
+                        <div class="diagram-icon">
+                            <i class="fa-solid fa-wand-magic-sparkles" style="color: #4f46e5; font-size: 2rem;"></i>
+                        </div>
+                        <div class="diagram-text">AI Processing</div>
+                    </div>
+                    
+                    <div class="diagram-step">
+                        <div class="diagram-icon">
+                            <i class="fa-solid fa-file-lines" style="color: #4f46e5; font-size: 2rem;"></i>
+                        </div>
+                        <div class="diagram-text">Summary Delivery</div>
+                    </div>
+                </div>
+                
+                <p><strong>Technical Details:</strong></p>
+                <p>When you submit a product URL, our JavaScript code makes an asynchronous request to our backend service. This service uses specialized scraping techniques to navigate to the e-commerce site and extract all review data. The collected reviews are then formatted into a structured prompt that is sent to the Google Gemini API.</p>
+                
+                <p>The Gemini API processes this information using advanced natural language understanding capabilities. It identifies key themes, analyzes sentiment patterns, extracts feature-specific feedback, and generates a comprehensive summary. The API is capable of understanding context across hundreds of reviews to produce meaningful insights rather than simply averaging opinions.</p>
+                
+                <p>The resulting summary is then returned to our frontend where it's formatted and displayed in an easy-to-understand interface. All of this happens within seconds, saving you hours of review reading time.</p>
+            </div>
+            
+            <div id="demo-animation">
+                <!-- Placeholder for an animated demonstration -->
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <p>© 2025 Product Review Summarizer. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Smooth scroll functionality for internal links
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add fade-in effects on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+            
+            // Observe all steps
+            document.querySelectorAll('.step').forEach(step => {
+                step.style.opacity = 0;
+                step.style.transform = 'translateY(20px)';
+                step.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(step);
+            });
+            
+            // Observe diagram steps
+            document.querySelectorAll('.diagram-step').forEach((step, index) => {
+                step.style.opacity = 0;
+                step.style.transform = 'translateY(20px)';
+                step.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                step.style.transitionDelay = `${index * 0.2}s`;
+                observer.observe(step);
+            });
+        });
+    </script>
+</body>
+</html>

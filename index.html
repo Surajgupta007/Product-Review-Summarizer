@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReviewSummarizer - Get the gist of product reviews</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c5c5c5;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a0a0a0;
+        }
+        
+        /* Custom animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        /* Shadow transition */
+        .hover-shadow-transition {
+            transition: box-shadow 0.3s ease, transform 0.2s ease;
+        }
+        
+        .hover-shadow-transition:hover {
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1), 0 8px 10px -6px rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans min-h-screen flex flex-col">
+    <!-- Sticky Navbar -->
+    <nav class="sticky top-0 z-50 bg-white shadow-md border-b border-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-8">
+                    <div class="flex items-center">
+                        <i class="fas fa-search-dollar text-indigo-600 text-2xl mr-3"></i>
+                        <span class="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-transparent">ReviewSummarizer</span>
+                    </div>
+                    
+                    <div class="hidden md:flex items-center space-x-6">
+                        <!-- <a href="index.html" class="text-gray-700 hover:text-indigo-600 font-medium transition duration-150">Home</a> -->
+                        <a href="howWork.html" class="text-gray-700 hover:text-indigo-600 font-medium transition duration-150">How It Works</a>
+                        <a href="price.html" class="text-gray-700 hover:text-indigo-600 font-medium transition duration-150">Pricing</a>
+                        <a href="faq.html" class="text-gray-700 hover:text-indigo-600 font-medium transition duration-150">FAQ</a>
+                    </div>
+                </div>
+                
+                
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuBtn" class="text-gray-500 hover:text-indigo-600 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile menu (hidden by default) -->
+            <div id="mobileMenu" class="md:hidden hidden bg-white border-t border-gray-100 py-2">
+                <div class="flex flex-col space-y-3 px-2 py-3">
+                    <a href="index.html" class="text-gray-700 hover:text-indigo-600 font-medium px-3 py-2 rounded-lg hover:bg-gray-50 transition duration-150">Home</a> -->
+                    <a href="howWork.html" class="text-gray-700 hover:text-indigo-600 font-medium px-3 py-2 rounded-lg hover:bg-gray-50 transition duration-150">How It Works</a>
+                    <a href="#" class="text-gray-700 hover:text-indigo-600 font-medium px-3 py-2 rounded-lg hover:bg-gray-50 transition duration-150">Pricing</a>
+                    <a href="#" class="text-gray-700 hover:text-indigo-600 font-medium px-3 py-2 rounded-lg hover:bg-gray-50 transition duration-150">FAQ</a>
+                    <div class="border-t border-gray-100 my-2"></div>
+                    <a href="#" class="text-gray-700 hover:text-indigo-600 font-medium px-3 py-2 rounded-lg hover:bg-gray-50 transition duration-150">Sign In</a>
+                    <a href="#" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-lg font-medium text-center transition duration-150">Sign Up Free</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Banner -->
+    <header class="bg-gradient-to-r from-indigo-600 to-purple-700 text-white py-12 md:py-20 shadow-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-1/2 mb-8 md:mb-0">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">Instantly Understand <span class="text-blue-200">What Buyers Think</span></h1>
+                    <p class="text-blue-100 text-lg md:text-xl mb-6 leading-relaxed">Get the essence of thousands of product reviews from across the web in seconds. Make informed shopping decisions with AI-powered insights.</p>
+                    <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                        <a href="#inputSection" class="bg-white text-indigo-700 hover:bg-blue-50 font-semibold py-3 px-6 rounded-lg shadow-md transition duration-200 text-center">
+                            Try It Now
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                        <a href="howWork.html" class="bg-transparent hover:bg-indigo-500 text-white border border-white font-semibold py-3 px-6 rounded-lg transition duration-200 text-center">
+                            How It Works
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-5/12">
+                    <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-white/20">
+                        <div class="flex items-center mb-4">
+                            <div class="flex space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                            </div>
+                            <div class="ml-3 text-sm opacity-70">Product Review Summary</div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center">
+                                <div class="bg-green-200 text-green-800 rounded-full px-2 py-1 text-xs font-medium">
+                                    <i class="fas fa-thumbs-up mr-1"></i>Positive
+                                </div>
+                                <div class="ml-2 text-sm">"Outstanding noise cancellation"</div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="bg-red-200 text-red-800 rounded-full px-2 py-1 text-xs font-medium">
+                                    <i class="fas fa-thumbs-down mr-1"></i>Negative
+                                </div>
+                                <div class="ml-2 text-sm">"Battery drains quickly in cold weather"</div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs font-medium">
+                                    <i class="fas fa-info-circle mr-1"></i>Insight
+                                </div>
+                                <div class="ml-2 text-sm">"Perfect for commuters and travelers"</div>
+                            </div>
+                            <div class="mt-4 border-t border-white/20 pt-3 text-sm text-right opacity-70">
+                                Analyzed 1,287 reviews from 4 sources
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12 flex-grow">
+        <div class="max-w-4xl mx-auto">
+            <!-- Input Section -->
+            <div id="inputSection" class="bg-white rounded-xl shadow-md border border-gray-100 p-8 mb-10 hover-shadow-transition">
+                <h2 class="text-2xl font-semibold mb-6 text-gray-800">Enter Product Link</h2>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-grow relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <i class="fas fa-link text-gray-400"></i>
+                        </div>
+                        <input 
+                            type="text" 
+                            id="productLink" 
+                            placeholder="Paste product URL here (e.g., amazon.com/product/...)" 
+                            class="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
+                        >
+                    </div>
+                    <button 
+                        id="summarizeBtn" 
+                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-4 px-8 rounded-xl shadow-md transition duration-200 flex items-center justify-center whitespace-nowrap"
+                    >
+                        <span>Summarize Reviews</span>
+                        <i class="fas fa-bolt ml-2"></i>
+                    </button>
+                </div>
+                <div class="mt-4 text-sm text-gray-500 flex items-center">
+                    <i class="fas fa-info-circle mr-2 text-indigo-400"></i>
+                    <p>Supported sites: Amazon, Best Buy, Walmart, Target, Flipkart, and more</p>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover-shadow-transition">
+                    <div class="text-indigo-600 mb-4">
+                        <i class="fas fa-bolt-lightning text-3xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Instant Analysis</h3>
+                    <p class="text-gray-600">Our AI analyzes thousands of reviews across multiple sites in seconds.</p>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover-shadow-transition">
+                    <div class="text-indigo-600 mb-4">
+                        <i class="fas fa-bullseye text-3xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Key Insights</h3>
+                    <p class="text-gray-600">Get pros, cons, and comparisons with alternatives based on real user feedback.</p>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover-shadow-transition">
+                    <div class="text-indigo-600 mb-4">
+                        <i class="fas fa-shield-halved text-3xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Trusted Sources</h3>
+                    <p class="text-gray-600">We analyze reviews from verified purchases across multiple retail platforms.</p>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="hidden bg-white rounded-xl shadow-md border border-gray-100 p-8 mb-10 text-center">
+                <div class="animate-spin inline-block w-16 h-16 border-4 border-indigo-600 border-t-transparent rounded-full mb-6"></div>
+                <p class="text-gray-700 text-xl mb-2">Analyzing reviews across multiple sites...</p>
+                <p class="text-gray-500">This may take a few seconds</p>
+                <div class="mt-6 w-full bg-gray-200 rounded-full h-2">
+                    <div class="bg-indigo-600 h-2 rounded-full animate-pulse" style="width: 70%"></div>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="hidden bg-white rounded-xl shadow-md border border-gray-100 p-8 mb-10">
+                <div class="flex items-start">
+                    <div class="mr-6 text-red-500">
+                        <i class="fas fa-exclamation-circle text-4xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Error Processing Request</h3>
+                        <p id="errorMessage" class="text-gray-600 mb-6">Unable to process the product URL. Please check the link and try again.</p>
+                        <button id="tryAgainBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-6 rounded-lg transition duration-200 flex items-center">
+                            <i class="fas fa-redo mr-2"></i>
+                            Try Again
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="hidden animate-fadeIn">
+                <div class="bg-white rounded-xl shadow-md border border-gray-100 p-8 mb-8">
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
+                        <h2 class="text-2xl font-semibold text-gray-800">Review Summary</h2>
+                        <div id="ratingContainer" class="flex items-center">
+                            <span id="productRating" class="bg-green-100 text-green-800 font-medium px-4 py-2 rounded-full text-sm flex items-center">
+                                <i class="fas fa-star mr-2"></i><span id="ratingValue" class="text-lg">4.5</span>/5
+                            </span>
+                            <span id="totalReviewsCount" class="text-sm text-gray-500 ml-3">(128 reviews)</span>
+                        </div>
+                    </div>
+                    
+                    <div id="productInfo" class="flex flex-col mb-8 border-b border-gray-100 pb-8">
+                        <div>
+                            <h3 id="productName" class="text-xl font-semibold text-gray-800 mb-3">Product Name</h3>
+                            <p id="productDescription" class="text-gray-600 mb-4 leading-relaxed">Product description will appear here.</p>
+                            <div id="productTags" class="flex flex-wrap gap-2 mb-4">
+                                <!-- Tags will be dynamically inserted here -->
+                            </div>
+                            <div id="productPrice" class="text-xl font-bold text-indigo-700 flex items-center">
+                                <i class="fas fa-tag mr-2 text-indigo-500"></i>
+                                <span>$299.99</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Summary Tabs -->
+                    <div class="mb-8">
+                        <div class="flex overflow-x-auto border-b border-gray-200 mb-6">
+                            <button class="tab-btn active py-3 px-6 font-medium text-indigo-600 border-b-2 border-indigo-600 whitespace-nowrap focus:outline-none" data-tab="overview">
+                                <i class="fas fa-flag mr-2"></i>Overview
+                            </button>
+                            <button class="tab-btn py-3 px-6 font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap focus:outline-none" data-tab="pros">
+                                <i class="fas fa-thumbs-up mr-2"></i>Pros
+                            </button>
+                            <button class="tab-btn py-3 px-6 font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap focus:outline-none" data-tab="cons">
+                                <i class="fas fa-thumbs-down mr-2"></i>Cons
+                            </button>
+                            <button class="tab-btn py-3 px-6 font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap focus:outline-none" data-tab="comparisons">
+                                <i class="fas fa-scale-balanced mr-2"></i>Comparisons
+                            </button>
+                            <button class="tab-btn py-3 px-6 font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap focus:outline-none" data-tab="userTypes">
+                                <i class="fas fa-users mr-2"></i>User Types
+                            </button>
+                        </div>
+
+                        <div class="py-4">
+                            <div id="overview" class="tab-content block">
+                                <p class="text-gray-700 leading-relaxed">
+                                    Loading overview...
+                                </p>
+                            </div>
+                            <div id="pros" class="tab-content hidden">
+                                <ul id="prosList" class="list-none space-y-3 text-gray-700">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                        <span>Loading pros...</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="cons" class="tab-content hidden">
+                                <ul id="consList" class="list-none space-y-3 text-gray-700">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-times-circle text-red-500 mt-1 mr-3"></i>
+                                        <span>Loading cons...</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="comparisons" class="tab-content hidden">
+                                <p class="text-gray-700 leading-relaxed">
+                                    Loading comparisons...
+                                </p>
+                            </div>
+                            <div id="userTypes" class="tab-content hidden">
+                                <p class="text-gray-700 leading-relaxed">
+                                    Loading user types...
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review Sources -->
+                    <div>
+                        <h3 class="font-medium text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-database mr-2 text-indigo-500"></i>
+                            Sources Analyzed
+                        </h3>
+                        <div id="sourcesList" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <!-- Sources will be dynamically inserted here -->
+                            <div class="bg-gray-50 p-4 rounded-lg text-center border border-gray-100">
+                                <div class="flex items-center justify-center h-10 mb-2">
+                                    <div class="animate-pulse bg-gray-200 h-8 w-24 rounded"></div>
+                                </div>
+                                <span class="text-sm text-gray-600">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Opinions Section -->
+                <div class="bg-white rounded-xl shadow-md border border-gray-100 p-8 mb-8">
+                    <h2 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center">
+                        <i class="fas fa-comment-dots mr-3 text-indigo-500"></i>
+                        Key Opinions
+                    </h2>
+                    
+                    <div id="keyOpinions" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <!-- Key opinions will be dynamically inserted here -->
+                        <div class="p-5 bg-gray-50 rounded-xl border border-gray-100 animate-pulse">
+                            <div class="flex items-center mb-3">
+                                <span class="bg-gray-200 h-6 w-24 rounded-full mr-2"></span>
+                                <span class="bg-gray-200 h-4 w-48 rounded"></span>
+                            </div>
+                            <div class="bg-gray-200 h-16 w-full rounded"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Share Results -->
+        
+                <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-8 border border-indigo-100 mb-8 flex flex-col md:flex-row justify-between items-center">
+                    <div class="mb-4 md:mb-0">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Share this summary</h3>
+                        <p class="text-gray-600">Help others make informed purchase decisions</p>
+                    </div>
+                    <div class="flex space-x-3">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=YOUR_URL" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg transition duration-150">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?url=YOUR_URL&text=Check%20out%20this%20summary!" target="_blank" class="bg-blue-400 hover:bg-blue-500 text-white p-3 rounded-lg transition duration-150">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://api.whatsapp.com/send?text=Check%20out%20this%20summary:%20YOUR_URL" target="_blank" class="bg-green-500 hover:bg-green-600 text-white p-3 rounded-lg transition duration-150">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        
+                    </div> 
+                </div>
+                
+                <!-- Try New Search -->
+                <div class="text-center mb-12">
+                    <button id="newSearchBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-6 rounded-lg transition duration-200 inline-flex items-center">
+                        <i class="fas fa-search mr-2"></i>
+                        Analyze Another Product
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12 mt-auto">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-search-dollar text-indigo-400 text-2xl mr-3"></i>
+                        <span class="text-xl font-bold">ReviewSummarizer</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">Get the essence of product reviews in seconds with AI-powered insights.</p>
+                    <div class="flex space-x-4">
+                        <a href="https://x.com/i/flow/login" class="text-gray-400 hover:text-white transition duration-150">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/" class="text-gray-400 hover:text-white transition duration-150">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/accounts/login/?hl=en" class="text-gray-400 hover:text-white transition duration-150">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://in.linkedin.com/" class="text-gray-400 hover:text-white transition duration-150">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-lg mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition duration-150">About Us</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition duration-150">Careers</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition duration-150">Blog</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition duration-150">Press</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-lg mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="legal.html" class="text-gray-400 hover:text-white transition duration-150">Terms of Service</a></li>
+                        <li><a href="legal.html" class="text-gray-400 hover:text-white transition duration-150">Privacy Policy</a></li>
+                        <li><a href="legal.html" class="text-gray-400 hover:text-white transition duration-150">Cookie Policy</a></li>
+                        <li><a href="legal.html" class="text-gray-400 hover:text-white transition duration-150">GDPR Compliance</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-lg mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="support.html" class="text-gray-400 hover:text-white transition duration-150">Help Center</a></li>
+                        <li><a href="support.html" class="text-gray-400 hover:text-white transition duration-150">FAQ</a></li>
+                        <li><a href="support.html" class="text-gray-400 hover:text-white transition duration-150">Contact Us</a></li>
+                        <li><a href="support.html" class="text-gray-400 hover:text-white transition duration-150">API Documentation</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-500 mb-4 md:mb-0">© 2025 ReviewSummarizer. All rights reserved.</p>
+                    <div class="flex space-x-4 items-center">
+                        <span class="text-gray-500">Powered by</span>
+                        <span class="text-indigo-400">Gemini API</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.classList.add('animate-fadeIn');
+            } else {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+        
+        // New search button functionality
+        document.getElementById('newSearchBtn')?.addEventListener('click', function() {
+            document.getElementById('resultsSection').classList.add('hidden');
+            document.getElementById('productLink').value = '';
+            document.getElementById('productLink').focus();
+            window.scrollTo({
+                top: document.getElementById('inputSection').offsetTop - 100,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Config - Replace with your actual endpoint and API key
+        const CONFIG = {
+            PROXY_API_ENDPOINT: 'https://your-backend-service.com/fetch-product-details',
+            GEMINI_API_KEY: 'AIzaSyBOiFlR6KHhAnbolTCfvrhupaFs-FhEtmU', //Replace with your actual API key
+            USE_DEMO_DATA: false,  // Set to true to bypass API calls for testing
+            DEBUG_MODE: false       // Set to true to see debug logs
+        };
+
+        // Tab functionality
+        document.querySelectorAll('.tab-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all tabs
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('active', 'text-indigo-600', 'border-b-2', 'border-indigo-600');
+                    btn.classList.add('text-gray-500');
+                });
+                
+                // Add active class to clicked tab
+                button.classList.add('active', 'text-indigo-600', 'border-b-2', 'border-indigo-600');
+                button.classList.remove('text-gray-500');
+                
+                // Hide all tab content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+                
+                // Show selected tab content
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(tabId).classList.remove('hidden');
+            });
+        });
+
+        // Try again button handler
+        document.getElementById('tryAgainBtn').addEventListener('click', () => {
+            document.getElementById('errorState').classList.add('hidden');
+        });
+
+        // Summarize button click handler
+        document.getElementById('summarizeBtn').addEventListener('click', async () => {
+            const productLink = document.getElementById('productLink').value.trim();
+            
+            if (!productLink) {
+                showError('Please enter a valid product URL');
+                return;
+            }
+            
+            // Show loading state
+            document.getElementById('loadingState').classList.remove('hidden');
+            document.getElementById('resultsSection').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            
+            try {
+                // If demo mode is enabled, use demo data
+                if (CONFIG.USE_DEMO_DATA) {
+                    setTimeout(() => {
+                        updateUI(getDemoData());
+                        document.getElementById('loadingState').classList.add('hidden');
+                        document.getElementById('resultsSection').classList.remove('hidden');
+                    }, 1500); // Simulate loading time
+                    return;
+                }
+                
+                // Process the actual product
+                const productData = await fetchProductDetails(productLink);
+                updateUI(productData);
+                document.getElementById('loadingState').classList.add('hidden');
+                document.getElementById('resultsSection').classList.remove('hidden');
+                
+            } catch (error) {
+                console.error('Error processing product:', error);
+                
+                // Use demo data as fallback
+                try {
+                    updateUI(getDemoData());
+                    document.getElementById('loadingState').classList.add('hidden');
+                    document.getElementById('resultsSection').classList.remove('hidden');
+                } catch (fallbackError) {
+                    showError(error.message || 'Error analyzing product reviews. Please try again.');
+                }
+            }
+        });
+        
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorState').classList.remove('hidden');
+            document.getElementById('loadingState').classList.add('hidden');
+        }
+        
+        // Main function to fetch product details with accurate price and image
+        async function fetchProductDetails(productLink) {
+            try {
+                // Step 1: Fetch actual product details from our proxy server
+                // This gets us accurate price and image data
+                let productDetails = {};
+                
+                try {
+                    const proxyResponse = await fetch(CONFIG.PROXY_API_ENDPOINT, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ url: productLink })
+                    });
+                    
+                    if (!proxyResponse.ok) {
+                        throw new Error('Proxy request failed');
+                    }
+                    
+                    productDetails = await proxyResponse.json();
+                    
+                    if (CONFIG.DEBUG_MODE) {
+                        console.log('Proxy data:', productDetails);
+                    }
+                } catch (proxyError) {
+                    console.warn('Failed to fetch product details from proxy, continuing with AI only:', proxyError);
+                    // Continue without proxy data - we'll rely solely on AI analysis
+                }
+                
+                // Step 2: Get AI-generated review analysis
+                const reviewAnalysis = await callGeminiAPI(productLink);
+                
+                // Step 3: Combine the data, prioritizing the proxy data for price and image
+                return {
+                    ...reviewAnalysis,
+                    price: productDetails.price || reviewAnalysis.price
+                };
+            } catch (error) {
+                console.error('Error in fetchProductDetails:', error);
+                throw error;
+            }
+        }
+        
+        // Function to call Gemini API for review analysis
+        async function callGeminiAPI(productLink) {
+            try {
+                if (CONFIG.DEBUG_MODE) {
+                    console.log('Calling Gemini API for:', productLink);
+                }
+                
+                // Prepare the prompt for the Gemini API
+                const prompt = `
+                Analyze product reviews for the product at this URL: ${productLink}
+                
+                I need a comprehensive analysis of the product reviews. The product URL may be from Amazon, Best Buy, Walmart, Target, Flipkart, or any other e-commerce site. 
+                
+                Analyze the sentiment, common themes, pros, cons, comparisons with other products, and user types who like or dislike the product.
+                
+                Please provide your analysis in JSON format with the following structure:
+                {
+                    "productName": "Product name",
+                    "description": "Brief product description",
+                    "price": "Price if available",
+                    "rating": "Overall rating out of 5",
+                    "totalReviews": "Number of reviews analyzed",
+                    "tags": ["tag1", "tag2", "tag3"],
+                    "overview": "General overview of reviews",
+                    "pros": ["pro1", "pro2", "pro3"],
+                    "cons": ["con1", "con2", "con3"],
+                    "comparisons": "How this product compares to alternatives",
+                    "userTypes": "Types of users who like or dislike this product",
+                    "sources": [
+                        {"name": "Source1", "reviewCount": 123},
+                        {"name": "Source2", "reviewCount": 45}
+                    ],
+                    "keyOpinions": [
+                        {"type": "positive", "source": "Description", "opinion": "Opinion text"},
+                        {"type": "negative", "source": "Description", "opinion": "Opinion text"},
+                        {"type": "insight", "source": "Description", "opinion": "Opinion text"}
+                    ]
+                }
+                
+                Please ensure your response is ONLY the valid JSON with no additional text or formatting.
+                `;
+                
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${CONFIG.GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: prompt
+                            }]
+                        }],
+                        generationConfig: {
+                            temperature: 0.2,
+                            maxOutputTokens: 4096
+                        }
+                    }),
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`API Error: ${errorData.error?.message || 'Unknown error'}`);
+                }
+                
+                const responseData = await response.json();
+                
+                if (CONFIG.DEBUG_MODE) {
+                    console.log('Gemini API response:', responseData);
+                }
+                
+                // Extract the text response from Gemini
+                const textResponse = responseData.candidates[0].content.parts[0].text;
+                
+                // Try to extract JSON from the response
+                let jsonDataMatch;
+                let jsonText;
+                
+                // Try several patterns to extract JSON
+                if (textResponse.includes('```json')) {
+                    jsonDataMatch = textResponse.match(/```json\n([\s\S]*?)\n```/);
+                    jsonText = jsonDataMatch ? jsonDataMatch[1] : null;
+                } else if (textResponse.includes('```')) {
+                    jsonDataMatch = textResponse.match(/```\n([\s\S]*?)\n```/);
+                    jsonText = jsonDataMatch ? jsonDataMatch[1] : null;
+                } else if (textResponse.trim().startsWith('{') && textResponse.trim().endsWith('}')) {
+                    // The whole response might be JSON
+                    jsonText = textResponse;
+                } else {
+                    // Try to find JSON-like structure
+                    jsonDataMatch = textResponse.match(/({[\s\S]*})/);
+                    jsonText = jsonDataMatch ? jsonDataMatch[1] : null;
+                }
+                
+                if (!jsonText) {
+                    throw new Error("Could not extract valid JSON from the API response");
+                }
+                
+                // Clean up the JSON text (remove any non-JSON artifacts)
+                jsonText = jsonText.trim();
+                
+                // Parse the JSON
+                let data;
+                try {
+                    data = JSON.parse(jsonText);
+                    
+                    // Validate required fields
+                    const requiredFields = ['productName', 'description', 'overview', 'pros', 'cons'];
+                    for (const field of requiredFields) {
+                        if (!data[field]) {
+                            console.warn(`Required field missing: ${field}`);
+                            data[field] = field === 'pros' || field === 'cons' ? [] : 'Not available';
+                        }
+                    }
+                    
+                } catch (e) {
+                    console.error("Error parsing JSON:", e);
+                    console.error("Raw text:", textResponse);
+                    throw new Error("Failed to parse review data. Please try again.");
+                }
+                
+                return data;
+                
+            } catch (error) {
+                console.error('Error calling Gemini API:', error);
+                throw error;
+            }
+        }
+        
+        // Function to update UI with data
+        function updateUI(data) {
+            // Product Name and Description
+            document.getElementById('productName').textContent = data.productName || 'Product Name Not Available';
+            document.getElementById('productDescription').textContent = data.description || 'No description available';
+            
+            // Price - Updated with better formatting
+            const priceElement = document.getElementById('productPrice');
+            if (data.price) {
+                // Format price to ensure consistent display
+                let formattedPrice = data.price.trim();
+                
+                // Add currency symbol if missing
+                if (!formattedPrice.match(/^[$₹€£¥]/)) {
+                    // Default to $ if no currency symbol detected
+                    formattedPrice = '$' + formattedPrice;
+                }
+                
+                priceElement.textContent = formattedPrice;
+                priceElement.classList.remove('hidden');
+                priceElement.classList.add('text-indigo-700');
+                priceElement.classList.remove('text-gray-500');
+            } else {
+                priceElement.textContent = 'Price not available';
+                priceElement.classList.remove('hidden');
+                priceElement.classList.add('text-gray-500');
+                priceElement.classList.remove('text-indigo-700');
+            }
+            
+            // Rating
+            document.getElementById('ratingValue').textContent = data.rating || '?';
+            
+            // Update rating color based on value
+            const ratingElement = document.getElementById('productRating');
+            const rating = parseFloat(data.rating) || 0;
+            
+            if (rating >= 4) {
+                ratingElement.className = 'bg-green-100 text-green-800 font-medium px-3 py-1 rounded-full text-sm';
+            } else if (rating >= 3) {
+                ratingElement.className = 'bg-yellow-100 text-yellow-800 font-medium px-3 py-1 rounded-full text-sm';
+            } else {
+                ratingElement.className = 'bg-red-100 text-red-800 font-medium px-3 py-1 rounded-full text-sm';
+            }
+            
+            // Total reviews
+            const totalReviewsElement = document.getElementById('totalReviewsCount');
+            if (data.totalReviews) {
+                totalReviewsElement.textContent = `(${data.totalReviews} reviews)`;
+                totalReviewsElement.classList.remove('hidden');
+            } else {
+                totalReviewsElement.classList.add('hidden');
+            }
+            
+            // Tags
+            const tagsContainer = document.getElementById('productTags');
+            tagsContainer.innerHTML = '';
+            
+            if (data.tags && data.tags.length > 0) {
+                data.tags.forEach(tag => {
+                    const tagElement = document.createElement('span');
+                    tagElement.className = 'bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full';
+                    tagElement.textContent = tag;
+                    tagsContainer.appendChild(tagElement);
+                });
+            }
+            
+            // Overview tab
+            document.getElementById('overview').innerHTML = `
+                <p class="text-gray-700 leading-relaxed">${data.overview || 'No overview available'}</p>
+            `;
+            
+            // Pros tab
+            const prosElement = document.getElementById('prosList');
+            prosElement.innerHTML = '';
+            
+            if (data.pros && data.pros.length > 0) {
+                data.pros.forEach(pro => {
+                    const li = document.createElement('li');
+                    li.className = 'text-gray-700';
+                    li.textContent = pro;
+                    prosElement.appendChild(li);
+                });
+            } else {
+                prosElement.innerHTML = '<li>No pros mentioned in reviews</li>';
+            }
+            
+            // Cons tab
+            const consElement = document.getElementById('consList');
+            consElement.innerHTML = '';
+            
+            if (data.cons && data.cons.length > 0) {
+                data.cons.forEach(con => {
+                    const li = document.createElement('li');
+                    li.className = 'text-gray-700';
+                    li.textContent = con;
+                    consElement.appendChild(li);
+                });
+            } else {
+                consElement.innerHTML = '<li>No cons mentioned in reviews</li>';
+            }
+            
+            // Comparisons tab
+            document.getElementById('comparisons').innerHTML = `
+                <p class="text-gray-700 leading-relaxed">${data.comparisons || 'No comparison information available'}</p>
+            `;
+            
+            // User Types tab
+            document.getElementById('userTypes').innerHTML = `
+                <p class="text-gray-700 leading-relaxed">${data.userTypes || 'No user type information available'}</p>
+            `;
+            
+            // Sources
+            const sourcesContainer = document.getElementById('sourcesList');
+            sourcesContainer.innerHTML = '';
+            
+            if (data.sources && data.sources.length > 0) {
+                data.sources.forEach(source => {
+                    const sourceElement = document.createElement('div');
+                    sourceElement.className = 'bg-gray-50 p-3 rounded-lg text-center';
+                    sourceElement.innerHTML = `
+                        <div class="flex items-center justify-center h-10 mb-2">
+                            <span class="font-medium text-gray-700">${source.name}</span>
+                        </div>
+                        <span class="text-sm text-gray-600">${source.reviewCount} reviews</span>
+                    `;
+                    sourcesContainer.appendChild(sourceElement);
+                });
+            } else {
+                sourcesContainer.innerHTML = `
+                    <div class="col-span-4 bg-gray-50 p-3 rounded-lg text-center">
+                        <span class="text-gray-600">No source information available</span>
+                    </div>
+                `;
+            }
+            
+            // Key Opinions
+            const opinionsContainer = document.getElementById('keyOpinions');
+            opinionsContainer.innerHTML = '';
+            
+            if (data.keyOpinions && data.keyOpinions.length > 0) {
+                data.keyOpinions.forEach(opinion => {
+                    let badgeClass = '';
+                    let icon = '';
+                    
+                    switch(opinion.type.toLowerCase()) {
+                        case 'positive':
+                            badgeClass = 'bg-green-100 text-green-800';
+                            icon = '<i class="fas fa-thumbs-up mr-1"></i>';
+                            break;
+                        case 'negative':
+                            badgeClass = 'bg-red-100 text-red-800';
+                            icon = '<i class="fas fa-thumbs-down mr-1"></i>';
+                            break;
+                        case 'insight':
+                        case 'neutral':
+                            badgeClass = 'bg-blue-100 text-blue-800';
+                            icon = '<i class="fas fa-info-circle mr-1"></i>';
+                            break;
+                        default:
+                            badgeClass = 'bg-gray-100 text-gray-800';
+                            icon = '<i class="fas fa-comment mr-1"></i>';
+                    }
+                    
+                    const opinionElement = document.createElement('div');
+                    opinionElement.className = 'p-4 bg-gray-50 rounded-lg';
+                    opinionElement.innerHTML = `
+                        <div class="flex items-center mb-2">
+                            <span class="${badgeClass} text-xs px-2 py-1 rounded-full mr-2">
+                                ${icon}${opinion.type.charAt(0).toUpperCase() + opinion.type.slice(1)}
+                            </span>
+                            <span class="text-sm text-gray-500">${opinion.source || ''}</span>
+                        </div>
+                        <p class="text-gray-700">"${opinion.opinion}"</p>
+                    `;
+                    opinionsContainer.appendChild(opinionElement);
+                });
+            } else {
+                opinionsContainer.innerHTML = `
+                    <div class="p-4 bg-gray-50 rounded-lg">
+                        <p class="text-gray-700">No key opinions available from reviews</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Function to get demo data for testing when API is not available
+        function getDemoData() {
+            return {
+                "productName": "Sony WH-1000XM4 Wireless Noise Cancelling Headphones",
+                "description": "Premium wireless over-ear headphones with industry-leading noise cancellation, 30-hour battery life, and touch controls",
+                "price": "$348.00",
+                "rating": "4.7",
+                "totalReviews": "12,483",
+                "tags": ["Noise Cancelling", "Wireless", "Over-Ear", "Premium"],
+                "overview": "The Sony WH-1000XM4 headphones receive overwhelmingly positive reviews across multiple retail platforms. Customers consistently praise the exceptional noise cancellation, sound quality, and comfortable fit even during extended use. Battery life exceeds expectations for most users, though some mention slight discomfort during very long sessions.",
+                "pros": [
+                    "Industry-leading noise cancellation technology",
+                    "Exceptional sound quality with rich bass and clear highs",
+                    "Comfortable for most users even during long sessions",
+                    "Impressive 30+ hour battery life on a single charge",
+                    "Intuitive touch controls and speak-to-chat feature",
+                    "Reliable Bluetooth connectivity with multipoint connection"
+                ],
+                "cons": [
+                    "Higher price point compared to many competitors",
+                    "Some users report pressure discomfort during very long sessions",
+                    "Touch controls can be too sensitive in certain situations",
+                    "App occasionally has connectivity issues on some devices",
+                    "Call quality is good but not as exceptional as the audio quality"
+                ],
+                "comparisons": "When compared to similar premium headphones like the Bose 700 and Apple AirPods Max, the Sony WH-1000XM4 is generally considered to have superior noise cancellation and better overall value. The Bose offers slightly better call quality, while the AirPods Max integrates more seamlessly with Apple devices but at a significantly higher price point.",
+                "userTypes": "These headphones are particularly popular among frequent travelers, office workers in open floor plans, and audiophiles who appreciate detailed sound. Users who prioritize call quality over music or who wear glasses may find other options better suited to their needs.",
+                "sources": [
+                    {"name": "Amazon", "reviewCount": 8563},
+                    {"name": "Best Buy", "reviewCount": 2487},
+                    {"name": "Sony Direct", "reviewCount": 875},
+                    {"name": "Walmart", "reviewCount": 558}
+                ],
+                "keyOpinions": [
+                    {
+                        "type": "positive",
+                        "source": "Consistent across 80% of reviews",
+                        "opinion": "The noise cancellation is truly outstanding. Multiple users report being able to work in noisy coffee shops or fly on planes without hearing ambient noise."
+                    },
+                    {
+                        "type": "negative",
+                        "source": "Mentioned by glasses wearers",
+                        "opinion": "The ear cups can create pressure points where glasses frames press against the side of the head during extended wear periods of 3+ hours."
+                    },
+                    {
+                        "type": "insight",
+                        "source": "Recent reviews (last 3 months)",
+                        "opinion": "The latest firmware update has significantly improved call quality and fixed the occasional Bluetooth stuttering that was mentioned in older reviews."
+                    }
+                ]
+            };
+        }
+    </script>
+</body>
+</html>

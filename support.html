@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Navigation Components</title>
+    <style>
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background-color: #1a1a1a;
+            color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .nav-container {
+            background-color: #111827;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #f3f4f6;
+        }
+        
+        .nav-list {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .nav-list li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-list a {
+            text-decoration: none;
+            color: #9ca3af;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            display: inline-block;
+            border: 1px solid transparent;
+            transition: all 0.15s ease;
+        }
+        
+        .nav-list a:hover {
+            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .component-container {
+            display: none;
+            background-color: #1f2937;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .component-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #f3f4f6;
+        }
+        
+        .component-description {
+            color: #d1d5db;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .text-field {
+            background-color: #374151;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.25rem;
+            padding: 1rem;
+            color: #e5e7eb;
+            width: 100%;
+            min-height: 100px;
+            margin-top: 1rem;
+        }
+        
+        .active {
+            color: #ffffff !important;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .contact-form {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #e5e7eb;
+        }
+        
+        .form-input, .form-textarea {
+            background-color: #374151;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.25rem;
+            padding: 0.75rem;
+            color: #e5e7eb;
+            font-family: inherit;
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-button {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+            max-width: fit-content;
+        }
+        
+        .form-button:hover {
+            background-color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-container">
+            <h2 class="nav-title">Support Resources</h2>
+            <ul class="nav-list space-y-2">
+                <li><a href="#" id="help-link" class="nav-link">Help Center</a></li>
+                <li><a href="#" id="faq-link" class="nav-link">FAQ</a></li>
+                <li><a href="#" id="contact-link" class="nav-link">Contact Us</a></li>
+                <li><a href="#" id="api-link" class="nav-link">API Documentation</a></li>
+            </ul>
+        </div>
+        
+        <div id="help-component" class="component-container">
+            <h3 class="component-title">Help Center</h3>
+            <p class="component-description">
+                Our Help Center provides comprehensive resources to help you get the most out of our product review 
+                summarizer. Find step-by-step guides, troubleshooting tips, and detailed explanations of all features 
+                to enhance your experience.
+            </p>
+            <div class="text-field">
+                Browse through our collection of tutorials, how-to articles, and video demonstrations covering everything 
+                from getting started to advanced techniques. Our Help Center is regularly updated with new content based 
+                on user feedback and feature releases. Can't find what you're looking for? Submit a help request directly 
+                from any article page, and our support team will provide personalized assistance.
+            </div>
+        </div>
+        
+        <div id="faq-component" class="component-container">
+            <h3 class="component-title">Frequently Asked Questions</h3>
+            <p class="component-description">
+                Find quick answers to common questions about our product review summarizer. Our FAQ section covers 
+                account management, feature usage, pricing, and technical troubleshooting to help you resolve issues quickly.
+            </p>
+            <div class="text-field">
+                <strong>How accurate are your review summaries?</strong><br>
+                Our AI algorithm has been trained on millions of verified product reviews and achieves over 95% accuracy in sentiment analysis and key point extraction.<br><br>
+                
+                <strong>Can I summarize reviews from any website?</strong><br>
+                Yes, our tool works with most major e-commerce platforms including Amazon, eBay, Walmart, and thousands of other online retailers.<br><br>
+                
+                <strong>Is there a limit to how many products I can analyze?</strong><br>
+                Free accounts can analyze up to 10 products per month. Premium subscribers enjoy unlimited product analysis and additional features.<br><br>
+                
+                <strong>How do I export or share summaries?</strong><br>
+                All summaries can be downloaded as PDF reports, shared via direct link, or embedded into your own website with our custom widget.
+            </div>
+        </div>
+        
+        <div id="contact-component" class="component-container">
+            <h3 class="component-title">Contact Us</h3>
+            <p class="component-description">
+                Have questions, feedback, or need personalized assistance? Our support team is ready to help. 
+                Send us a quick mail at <u>shkumark295@gmail.com</u>, and we'll respond within 24 hours. For urgent matters, consider using 
+                our live chat available during business hours.
+            </p>
+     
+        </div>
+        
+        <div id="api-component" class="component-container">
+            <h3 class="component-title">API Documentation</h3>
+            <p class="component-description">
+                Integrate our product review summarization capabilities directly into your applications with our 
+                developer-friendly API. Our comprehensive documentation provides everything you need to get started, 
+                from authentication to endpoint references.
+            </p>
+            <div class="text-field">
+                Our RESTful API allows you to programmatically submit product URLs or review texts for analysis, 
+                retrieve summaries in JSON format, and customize output parameters. The documentation includes code 
+                examples in multiple languages (Python, JavaScript, Ruby, PHP), interactive request builders, and 
+                detailed response schemas. API access is available on all paid plans, with usage limits based on 
+                your subscription tier. Developer support is available through our dedicated Slack channel.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get all navigation links
+        const navLinks = document.querySelectorAll('.nav-link');
+        const components = document.querySelectorAll('.component-container');
+        
+        // Add click event listeners to each link
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                navLinks.forEach(l => l.classList.remove('active'));
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Hide all components
+                components.forEach(comp => comp.style.display = 'none');
+                
+                // Show the corresponding component
+                const componentId = this.id.replace('-link', '-component');
+                document.getElementById(componentId).style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Navigation Components</title>
+    <style>
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background-color: #1a1a1a;
+            color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .nav-container {
+            background-color: #111827;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #f3f4f6;
+        }
+        
+        .nav-list {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .nav-list li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-list a {
+            text-decoration: none;
+            color: #9ca3af;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            display: inline-block;
+            border: 1px solid transparent;
+            transition: all 0.15s ease;
+        }
+        
+        .nav-list a:hover {
+            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .component-container {
+            display: none;
+            background-color: #1f2937;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .component-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #f3f4f6;
+        }
+        
+        .component-description {
+            color: #d1d5db;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .text-field {
+            background-color: #374151;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.25rem;
+            padding: 1rem;
+            color: #e5e7eb;
+            width: 100%;
+            min-height: 100px;
+            margin-top: 1rem;
+        }
+        
+        .active {
+            color: #ffffff !important;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-container">
+            <h2 class="nav-title">Legal Information</h2>
+            <ul class="nav-list space-y-2">
+                <li><a href="#" id="terms-link" class="nav-link">Terms of Service</a></li>
+                <li><a href="#" id="privacy-link" class="nav-link">Privacy Policy</a></li>
+                <li><a href="#" id="cookie-link" class="nav-link">Cookie Policy</a></li>
+                <li><a href="#" id="gdpr-link" class="nav-link">GDPR Compliance</a></li>
+            </ul>
+        </div>
+        
+        <div id="terms-component" class="component-container">
+            <h3 class="component-title">Terms of Service</h3>
+            <p class="component-description">
+                Our Terms of Service outline the rules, guidelines, and agreements that govern your use of our 
+                product review summarizer service. This document clarifies the relationship between users and 
+                our company, including rights, responsibilities, and limitations of liability.
+            </p>
+            <div class="text-field">
+                These terms cover important aspects such as account creation and security, acceptable use policies, 
+                intellectual property rights, content ownership, service modifications, and dispute resolution procedures. 
+                By using our service, you agree to abide by these terms. We recommend reviewing this document 
+                periodically as it may be updated to reflect changes in our offerings or legal requirements.
+            </div>
+        </div>
+        
+        <div id="privacy-component" class="component-container">
+            <h3 class="component-title">Privacy Policy</h3>
+            <p class="component-description">
+                Our Privacy Policy explains how we collect, use, store, and protect your personal information when 
+                you use our product review summarizer. We are committed to transparency and take your privacy seriously, 
+                ensuring compliance with applicable data protection laws.
+            </p>
+            <div class="text-field">
+                This policy details the types of information we collect (such as browsing data, search queries, and 
+                account information), how we use this data to improve our services, and the circumstances under which 
+                we may share information with third parties. You'll also find information about your privacy rights, 
+                including how to access, correct, or delete your data, and how to opt out of certain data collection practices.
+            </div>
+        </div>
+        
+        <div id="cookie-component" class="component-container">
+            <h3 class="component-title">Cookie Policy</h3>
+            <p class="component-description">
+                Our Cookie Policy explains how we use cookies and similar technologies when you visit our website 
+                or use our product review summarizer. Cookies help us deliver personalized experiences, analyze site 
+                traffic, and optimize service performance.
+            </p>
+            <div class="text-field">
+                This policy describes the different types of cookies we use (essential, functional, analytical, and 
+                marketing), their purposes, and how long they remain on your device. We also provide information on 
+                how to manage cookie preferences through your browser settings or our consent management tool. You can 
+                choose to accept or decline certain types of cookies, though essential cookies are necessary for basic 
+                website functionality.
+            </div>
+        </div>
+        
+        <div id="gdpr-component" class="component-container">
+            <h3 class="component-title">GDPR Compliance</h3>
+            <p class="component-description">
+                Our GDPR Compliance statement outlines how we adhere to the European Union's General Data Protection 
+                Regulation. We are committed to protecting the personal data of EU citizens and residents in accordance 
+                with this comprehensive privacy law.
+            </p>
+            <div class="text-field">
+                This document details our legal basis for processing personal data, our data retention policies, and 
+                the measures we take to ensure data security. It also explains how we fulfill GDPR-specific rights, 
+                including the right to access, rectification, erasure, restriction of processing, data portability, 
+                and objection. For EU users, we provide information about our Data Protection Officer and how to file 
+                complaints with supervisory authorities if concerns arise regarding our data handling practices.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get all navigation links
+        const navLinks = document.querySelectorAll('.nav-link');
+        const components = document.querySelectorAll('.component-container');
+        
+        // Add click event listeners to each link
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                navLinks.forEach(l => l.classList.remove('active'));
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Hide all components
+                components.forEach(comp => comp.style.display = 'none');
+                
+                // Show the corresponding component
+                const componentId = this.id.replace('-link', '-component');
+                document.getElementById(componentId).style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
